@@ -1,8 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { StatusSeeder } from './status/status.seeder';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const statusSeederService = app.get(StatusSeeder);
+  await statusSeederService.seedStatus();
 
   app.enableCors({
     origin: '*',
