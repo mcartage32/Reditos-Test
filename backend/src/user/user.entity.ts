@@ -1,17 +1,20 @@
 import { Task } from 'src/task/task.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
-@Entity('users')
+@Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  username: string;
+  @Column({ unique: true })
+  email: string;
 
   @Column()
   password: string;
 
-  @OneToMany(() => Task, (task) => task.user, { cascade: true })
+  @Column({ default: 'user' })
+  role: string;
+
+  @OneToMany(() => Task, (task) => task.user)
   tasks: Task[];
 }

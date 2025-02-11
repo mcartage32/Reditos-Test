@@ -1,35 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from './user.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import * as bcrypt from 'bcrypt';
-
-type UserWithoutPassword = Omit<User, 'password'>;
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
 
-  async register(createUserDto: User): Promise<User> {
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    return this.userRepository.create({
-      username: createUserDto.username,
+  async create(email: string, password: string, role: string): Promise<User> {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = this.userRepository.create({
+      email,
       password: hashedPassword,
+      role,
     });
+    return this.userRepository.save(user);
   }
 
-  async login(
-    loginDto: User,
-  ): Promise<{ success: boolean; user?: UserWithoutPassword }> {
-    const user = await this.userRepository.findOneByUsername(loginDto.username);
-
-    if (user && (await bcrypt.compare(loginDto.password, user.password))) {
-      const { password, ...userWithoutPassword } = user;
-      return {
-        success: true,
-        user: userWithoutPassword,
-      };
-    }
-
-    return { success: false };
+  async findByEmail(email: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { email } });
   }
 }
