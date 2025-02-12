@@ -6,12 +6,21 @@ import { useTaskDetailQuery, useUpdateTaskMutation } from "../api/ApiHooks";
 import { updatedDiff } from "deep-object-diff";
 import { toast } from "react-toastify";
 import { isEmpty } from "lodash";
+import dayjs from "dayjs";
 
 const EditTask = () => {
   const { taskId } = useParams();
   const { data: taskDetail, isLoading } = useTaskDetailQuery(Number(taskId));
   const { mutateAsync: updateTask } = useUpdateTaskMutation();
   const navigate = useNavigate();
+
+  const initialValuesTask = {
+    statusId: taskDetail?.status?.id,
+    priorityId: taskDetail?.priority?.id,
+    title: taskDetail?.title,
+    description: taskDetail?.description,
+    dueDate: taskDetail?.dueDate,
+  };
 
   if (isLoading) return <CircularProgress />;
   return (
@@ -41,16 +50,20 @@ const EditTask = () => {
         <Typography variant="h5">Editar Tarea</Typography>
         <Formik
           enableReinitialize
-          initialValues={taskDetail}
+          initialValues={initialValuesTask}
           onSubmit={async (values: any) => {
             if (!taskDetail) {
               return toast.error("No se encontro la nota");
             }
-            const differences = updatedDiff(taskDetail, values);
-
+            const differences = updatedDiff(initialValuesTask, values);
             if (isEmpty(differences)) {
               return toast.info("No actualizo ningún campo.");
             } else {
+              if ((differences as any).dueDate) {
+                (differences as any).dueDate = dayjs(
+                  (differences as any).dueDate
+                ).format("YYYY-MM-DD");
+              }
               await updateTask(
                 { sendData: differences, taskId: Number(taskId) },
                 {

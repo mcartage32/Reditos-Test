@@ -26,9 +26,11 @@ export interface TaskInterface {
   dueDate: string;
   status: {
     name: string;
+    id: number;
   };
   priority: {
     name: string;
+    id: number;
   };
 }
 
