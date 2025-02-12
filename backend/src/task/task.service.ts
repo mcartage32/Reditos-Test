@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Task } from './task.entity';
@@ -22,26 +26,37 @@ export class TaskService {
   ) {}
 
   async create(createTaskDto: CreateTaskDto): Promise<Task> {
-    const status = await this.statusRepository.findOne({
-      where: { id: createTaskDto.statusId },
-    });
-    const priority = await this.priorityRepository.findOne({
-      where: { id: createTaskDto.priorityId },
-    });
-    const user = await this.userRepository.findOne({
-      where: { id: createTaskDto.userId },
-    });
+    const { title, description, dueDate, priorityId, statusId, userId } =
+      createTaskDto;
 
-    if (!status || !priority || !user) {
-      throw new Error('Invalid status or priority or user');
+    // 🚨 Validación de fecha
+    if (isNaN(Date.parse(dueDate))) {
+      throw new BadRequestException('La fecha proporcionada no es válida');
     }
 
+    const status = await this.statusRepository.findOne({
+      where: { id: statusId },
+    });
+    if (!status) throw new NotFoundException('Estado no encontrado');
+
+    const priority = await this.priorityRepository.findOne({
+      where: { id: priorityId },
+    });
+    if (!priority) throw new NotFoundException('Prioridad no encontrada');
+
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) throw new NotFoundException('Usuario no encontrado');
+
+    // Crear la tarea
     const task = this.taskRepository.create({
-      ...createTaskDto,
-      status,
+      title,
+      description,
+      dueDate,
       priority,
+      status,
       user,
     });
+
     return this.taskRepository.save(task);
   }
 
