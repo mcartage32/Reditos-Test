@@ -1,10 +1,11 @@
 export interface RegistrationInterface {
-  username: string;
+  email: string;
   password: string;
+  role: string;
 }
 
 export interface LoginInterface {
-  username: string;
+  email: string;
   password: string;
 }
 

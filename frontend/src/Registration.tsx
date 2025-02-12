@@ -38,13 +38,18 @@ const Registration = () => {
             email: "",
             password: "",
             confirmPassword: "",
+            role: "",
           }}
           onSubmit={async (values: any) => {
             if (values?.password !== values?.confirmPassword) {
               return toast.error("Las contraseñas deben ser iguales");
             } else {
               await createUser(
-                { username: values?.email, password: values?.password },
+                {
+                  email: values?.email,
+                  password: values?.password,
+                  role: values?.role,
+                },
                 {
                   onSuccess: () => {
                     toast.success("Se ha registrado el usuario correctamente.");

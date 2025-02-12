@@ -19,7 +19,7 @@ export const useCreateUserMutation = () => {
     mutationKey: ["CreateUser"],
     mutationFn: async (sendData: RegistrationInterface) => {
       const response = await apiTaks.post<UserInterface>(
-        `users/register`,
+        `auth/register`,
         sendData
       );
       return response.data;
