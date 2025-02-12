@@ -3,6 +3,12 @@
 ## General Considerations
 
 1. The frontend will run by default on port 5173 and the backend API will run on port 3000. Make sure you have these ports free or if you wish you can change these ports in the respective files.
+2. The path to the API documentation (made with Swagger) is **"http://localhost:3000/documentation ”**.
+3. To run the tests, go to the root of the backend and there type the command **"npm test ”**. To generate the results of the unit tests and their coverage run the command **"npm run test -- --coverage ‘**, after this inside the backend folder a folder called **’docs ”** will be generated and inside it there will be an xml file with the results. In the same way if you want to see the results in html in your browser, after executing the previous command, you can execute this command according to your OS:
+
+Windows: start coverage coverage “coverage-report” index.html 
+MAC: open coverage/lcov-report/index.html
+Linux: xdg-open coverage/lcov-report/index.html
 
 Before installing this project, you need to install the following dependencies:
 
