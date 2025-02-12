@@ -14,6 +14,8 @@
    
    C. Linux: xdg-open coverage/lcov-report/index.html
 
+5. Other considerations: roles are handled as a column within the user table and there are only two allowed values **"user ‘** and **’admin ”**.
+
 Before installing this project, you need to install the following dependencies:
 
 1. **MySQL 9.0.1** or any later version.
