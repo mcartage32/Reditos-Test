@@ -9,6 +9,8 @@ import {
   TaskPartial,
   UserInterface,
 } from "./Interfaces";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const apiTaks = axios.create({
   baseURL: "http://localhost:3000/",
@@ -32,7 +34,7 @@ export const useLoginUserMutation = () => {
     mutationKey: ["LoginUser"],
     mutationFn: async (sendData: LoginInterface) => {
       const response = await apiTaks.post<LoginResponse>(
-        `users/login`,
+        `auth/login`,
         sendData
       );
       return response.data;
@@ -40,13 +42,18 @@ export const useLoginUserMutation = () => {
   });
 };
 
-export const useTaskListQuery = (idUser: number) => {
+export const useTaskListQuery = () => {
+  const auth = useContext(AuthContext);
+  const token = auth?.accesToken;
   return useQuery<TaskInterface[]>({
-    queryKey: ["TaskList"],
+    queryKey: ["TaskList", token],
     queryFn: async (): Promise<TaskInterface[]> => {
-      const response = await apiTaks.get<TaskInterface[]>(
-        `tasks/user/${idUser}`
-      );
+      if (!token) return Promise.reject("No hay token disponible");
+      const response = await apiTaks.get<TaskInterface[]>("tasks", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     },
   });

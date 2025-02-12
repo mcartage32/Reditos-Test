@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDeleteTaskMutation, useTaskListQuery } from "./api/ApiHooks";
 import { useContext } from "react";
@@ -23,14 +23,16 @@ import { AuthContext } from "./context/AuthContext";
 function Home() {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
-  const { userId } = useParams();
   const { mutateAsync: deleteTask } = useDeleteTaskMutation();
-  const {
-    data: taskList,
-    isLoading: isLoading,
-    refetch,
-  } = useTaskListQuery(Number(userId));
-  const columns = ["Título", "Contenido", "Opciones"];
+  const { data: taskList, isLoading, refetch } = useTaskListQuery();
+  const columns = [
+    "Título",
+    "Descripción",
+    "Fecha de vencimiento",
+    "Estado",
+    "Prioridad",
+    "Opciones",
+  ];
 
   if (isLoading) return <CircularProgress />;
 
@@ -66,6 +68,9 @@ function Home() {
               >
                 <TableCell>{task?.title}</TableCell>
                 <TableCell>{task?.description}</TableCell>
+                <TableCell>{task?.dueDate}</TableCell>
+                <TableCell>{task?.status?.name}</TableCell>
+                <TableCell>{task?.priority?.name}</TableCell>
                 <TableCell>
                   <IconButton
                     onClick={() => navigate(`../../edit/${task?.id}`)}

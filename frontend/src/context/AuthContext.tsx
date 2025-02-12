@@ -1,8 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface AuthContextType {
-  userId: string | null;
-  login: (id: string) => void;
+  accesToken: string | null;
+  login: (token: string) => void;
   logout: () => void;
 }
 
@@ -13,28 +14,31 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [userId, setUserId] = useState<string | null>(
-    localStorage.getItem("userId")
+  const queryClient = useQueryClient();
+  const [accesToken, setAccesToken] = useState<string | null>(
+    localStorage.getItem("accesToken")
   );
 
   useEffect(() => {
-    if (userId) {
-      localStorage.setItem("userId", userId);
+    if (accesToken) {
+      localStorage.setItem("accesToken", accesToken);
     } else {
-      localStorage.removeItem("userId");
+      localStorage.removeItem("accesToken");
     }
-  }, [userId]);
+  }, [accesToken]);
 
-  const login = (id: string) => {
-    setUserId(id);
+  const login = (token: string) => {
+    setAccesToken(token);
+    queryClient.removeQueries(); // Borra TODAS las queries almacenadas
   };
 
   const logout = () => {
-    setUserId(null);
+    setAccesToken(null);
+    queryClient.clear(); // Limpia la caché de `react-query`
   };
 
   return (
-    <AuthContext.Provider value={{ userId, login, logout }}>
+    <AuthContext.Provider value={{ accesToken, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

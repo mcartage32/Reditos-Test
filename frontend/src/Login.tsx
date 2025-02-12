@@ -6,11 +6,14 @@ import { useLoginUserMutation } from "./api/ApiHooks";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Login = () => {
   const { mutateAsync: LoginUser } = useLoginUserMutation();
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
+  const queryClient = useQueryClient();
+
   return (
     <Box
       sx={{
@@ -44,7 +47,7 @@ const Login = () => {
           onSubmit={async (values: any) => {
             const response = await LoginUser(
               {
-                username: values?.email,
+                email: values?.email,
                 password: values?.password,
               },
               {
@@ -53,14 +56,11 @@ const Login = () => {
                 },
               }
             );
-            if (response?.success) {
-              const data = await response?.user;
-              if (data?.id) {
-                auth?.login(data?.id.toString());
-              } else {
-                toast.error("ID de usuario no encontrado.");
-              }
-              navigate(`user/${data?.id}/tasks`);
+            if (response?.access_token) {
+              auth?.login(response.access_token);
+              queryClient.invalidateQueries();
+              queryClient.clear(); // Limpiar caché al iniciar sesión
+              navigate("tasks");
             } else {
               return toast.error("Email o contraseña incorrectos.");
             }

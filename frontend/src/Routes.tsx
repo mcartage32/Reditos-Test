@@ -13,31 +13,31 @@ const Routes = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!auth?.userId && location.pathname !== "/registration") {
+    if (!auth?.accesToken && location.pathname !== "/registration") {
       navigate("/");
     }
-  }, [auth?.userId, navigate, location.pathname]);
+  }, [auth?.accesToken, navigate, location.pathname]);
 
   return useRoutes([
     {
       path: "/",
-      element: !auth?.userId ? <Login /> : <Home />,
+      element: !auth?.accesToken ? <Login /> : <Home />,
     },
     {
       path: "/registration",
       element: <Registration />,
     },
     {
-      path: "/user/:userId/tasks",
-      element: auth?.userId ? <Home /> : <Login />,
+      path: "/tasks",
+      element: auth?.accesToken ? <Home /> : <Login />,
     },
     {
       path: "/create",
-      element: auth?.userId ? <CreateTask /> : <Login />,
+      element: auth?.accesToken ? <CreateTask /> : <Login />,
     },
     {
       path: "/edit/:taskId",
-      element: auth?.userId ? <EditTask /> : <Login />,
+      element: auth?.accesToken ? <EditTask /> : <Login />,
     },
   ]);
 };

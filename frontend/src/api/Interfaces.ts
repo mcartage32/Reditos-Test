@@ -18,14 +18,20 @@ export interface UserInterface {
 export type UserWithoutPassword = Omit<UserInterface, "password">;
 
 export interface LoginResponse {
-  success: boolean;
-  user?: UserWithoutPassword;
+  access_token: string;
 }
 
 export interface TaskInterface {
   id: number;
   title: string;
   description: string;
+  dueDate: string;
+  status: {
+    name: string;
+  };
+  priority: {
+    name: string;
+  };
 }
 
 export interface CreateTaskInterface {
