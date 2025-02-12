@@ -15,8 +15,6 @@ export interface UserInterface {
   password: string;
 }
 
-export type UserWithoutPassword = Omit<UserInterface, "password">;
-
 export interface LoginResponse {
   access_token: string;
 }
@@ -35,12 +33,28 @@ export interface TaskInterface {
 }
 
 export interface CreateTaskInterface {
-  userId: number;
   title: string;
   description: string;
+  dueDate: string;
+  status: number;
+  priority: number;
+  userId: number;
 }
 
 export interface TaskPartial {
   title?: string;
   description?: string;
+  dueDate?: Date;
+  status?: number;
+  priority?: number;
+}
+
+export interface StatusInterface {
+  id: number;
+  name: string;
+}
+
+export interface PropietyInterface {
+  id: number;
+  name: string;
 }

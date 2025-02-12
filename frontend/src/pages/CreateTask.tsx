@@ -6,6 +6,8 @@ import { useCreateTaskMutation } from "../api/ApiHooks";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { jwtDecode } from "jwt-decode";
+import dayjs from "dayjs";
 
 const CreateTask = () => {
   const auth = useContext(AuthContext);
@@ -19,6 +21,9 @@ const CreateTask = () => {
       </Typography>
     );
   }
+
+  const decoded = auth?.accesToken ? jwtDecode(auth?.accesToken) : null;
+
   return (
     <Box
       sx={{
@@ -54,7 +59,10 @@ const CreateTask = () => {
               {
                 description: values?.description,
                 title: values?.title,
-                userId: Number(auth?.userId),
+                userId: Number(decoded?.sub),
+                dueDate: dayjs(values?.dueDate).format("YYYY-MM-DD"),
+                priority: values?.priorityId,
+                status: values?.statusId,
               },
               {
                 onSuccess: () => {
