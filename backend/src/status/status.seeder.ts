@@ -11,10 +11,18 @@ export class StatusSeeder {
   ) {}
 
   async seedStatus() {
-    const statuses = ['Pendiente', 'En progreso', 'Completada'];
-    for (const name of statuses) {
-      const status = this.statusRepository.create({ name });
-      await this.statusRepository.save(status);
+    const statuses = [
+      { name: 'Pendiente' },
+      { name: 'En progreso' },
+      { name: 'Completada' },
+    ];
+    for (const status of statuses) {
+      const existingStatus = await this.statusRepository.findOne({
+        where: { name: status.name },
+      });
+      if (!existingStatus) {
+        await this.statusRepository.save(status);
+      }
     }
   }
 }

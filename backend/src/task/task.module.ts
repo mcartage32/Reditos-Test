@@ -5,9 +5,11 @@ import { TaskRepository } from './task.repository';
 import { TaskService } from './task.service';
 import { Module } from '@nestjs/common';
 import { User } from 'src/user/user.entity';
+import { Status } from 'src/status/status.entity';
+import { Priority } from 'src/priority/priority.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Task, User])],
+  imports: [TypeOrmModule.forFeature([Task, User, Status, Priority])],
   providers: [TaskRepository, TaskService],
   controllers: [TaskController],
 })

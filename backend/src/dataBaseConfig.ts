@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv';
 import { User } from './user/user.entity';
 import { Task } from './task/task.entity';
 import { Status } from './status/status.entity';
+import { Priority } from './priority/priority.entity';
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ const dataBaseConfig: TypeOrmModuleOptions = {
   username: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || 'root',
   database: process.env.DB_NAME || 'reditos_test',
-  entities: [User, Task, Status],
+  entities: [User, Task, Status, Priority],
   synchronize: true,
 };
 

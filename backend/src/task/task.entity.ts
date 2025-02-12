@@ -1,3 +1,4 @@
+import { Priority } from 'src/priority/priority.entity';
 import { Status } from 'src/status/status.entity';
 import { User } from 'src/user/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
@@ -22,6 +23,6 @@ export class Task {
   @ManyToOne(() => Status, (status) => status.tasks)
   status: Status;
 
-  // @ManyToOne(() => Priority, (priority) => priority.tasks)
-  // priority: Priority;
+  @ManyToOne(() => Priority, (priority) => priority.tasks)
+  priority: Priority;
 }
