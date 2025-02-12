@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="8" failures="0" errors="0" time="13.044">
+  <testsuite name="TaskService" errors="0" failures="0" skipped="0" timestamp="2025-02-12T04:30:43" time="11.944" tests="6">
+    <testcase classname="TaskService Debe crear una tarea correctamente" name="TaskService Debe crear una tarea correctamente" time="0.046">
+    </testcase>
+    <testcase classname="TaskService Debe rechazar una tarea con fecha inválida" name="TaskService Debe rechazar una tarea con fecha inválida" time="0.036">
+    </testcase>
+    <testcase classname="TaskService Debe rechazar una tarea con status o prioridad inválidos" name="TaskService Debe rechazar una tarea con status o prioridad inválidos" time="0.014">
+    </testcase>
+    <testcase classname="TaskService Debe actualizar una tarea" name="TaskService Debe actualizar una tarea" time="0.005">
+    </testcase>
+    <testcase classname="TaskService Debe eliminar una tarea" name="TaskService Debe eliminar una tarea" time="0.006">
+    </testcase>
+    <testcase classname="TaskService Debe obtener una lista de tareas" name="TaskService Debe obtener una lista de tareas" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="AuthService" errors="0" failures="0" skipped="0" timestamp="2025-02-12T04:30:43" time="12.017" tests="2">
+    <testcase classname="AuthService Debe generar un token si las credenciales son correctas" name="AuthService Debe generar un token si las credenciales son correctas" time="0.045">
+    </testcase>
+    <testcase classname="AuthService Debe arrojar un error si las credenciales son incorrectas" name="AuthService Debe arrojar un error si las credenciales son incorrectas" time="0.021">
+    </testcase>
+  </testsuite>
+</testsuites>
