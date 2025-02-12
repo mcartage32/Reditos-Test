@@ -38,8 +38,8 @@ export interface CreateTaskInterface {
   title: string;
   description: string;
   dueDate: string;
-  status: number;
-  priority: number;
+  statusId: number;
+  priorityId: number;
   userId: number;
 }
 

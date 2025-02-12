@@ -61,8 +61,8 @@ const CreateTask = () => {
                 title: values?.title,
                 userId: Number(decoded?.sub),
                 dueDate: dayjs(values?.dueDate).format("YYYY-MM-DD"),
-                priority: values?.priorityId,
-                status: values?.statusId,
+                priorityId: values?.priorityId,
+                statusId: values?.statusId,
               },
               {
                 onSuccess: () => {

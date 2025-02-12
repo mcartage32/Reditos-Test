@@ -29,7 +29,7 @@ export class TaskService {
     const { title, description, dueDate, priorityId, statusId, userId } =
       createTaskDto;
 
-    // 🚨 Validación de fecha
+    // Validación de fecha
     if (isNaN(Date.parse(dueDate))) {
       throw new BadRequestException('La fecha proporcionada no es válida');
     }
@@ -37,6 +37,7 @@ export class TaskService {
     const status = await this.statusRepository.findOne({
       where: { id: statusId },
     });
+
     if (!status) throw new NotFoundException('Estado no encontrado');
 
     const priority = await this.priorityRepository.findOne({
@@ -47,15 +48,17 @@ export class TaskService {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) throw new NotFoundException('Usuario no encontrado');
 
-    // Crear la tarea
+    // Crear la tarea sin incluir status y priority en la creación inicial
     const task = this.taskRepository.create({
       title,
       description,
       dueDate,
-      priority,
-      status,
       user,
     });
+
+    // Asignar status y priority explícitamente
+    task.status = status;
+    task.priority = priority;
 
     return this.taskRepository.save(task);
   }
