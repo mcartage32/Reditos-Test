@@ -45,9 +45,15 @@ export class TaskService {
     return this.taskRepository.save(task);
   }
 
-  findAll(): Promise<Task[]> {
+  async findAll(user: any): Promise<Task[]> {
+    if (user.role == 'admin') {
+      return this.taskRepository.find({
+        relations: ['status', 'priority', 'user'],
+      });
+    }
     return this.taskRepository.find({
-      relations: ['status', 'priority', 'user'],
+      where: { user: { id: user.id } },
+      relations: ['status', 'priority'],
     });
   }
 
