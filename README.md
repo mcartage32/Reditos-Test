@@ -4,7 +4,8 @@
 
 1. The frontend will run by default on port 5173 and the backend API will run on port 3000. Make sure you have these ports free or if you wish you can change these ports in the respective files.
 2. The path to the API documentation (made with Swagger) is **"http://localhost:3000/documentation ”**.
-3. The unit tests were made with **“Jest"** and to run them, first go to the root of the ’backend” folder and there write the command **"npm test”**. To generate the results of the unit tests and their coverage run the command **"npm run test -- --coverage ‘**, after this inside the backend folder a folder called **’docs ”** will be generated and inside it there will be an xml file with the results. In the same way if you want to see the results in html in your browser, after executing the previous command, you can execute this command according to your OS:
+3. The database was worked on using the **"Code First ”** programming style, but a drawing of the logical model used for the database is attached as well as a script made in **MySQL** for a better understanding of what was done. However these files are not necessary for the installation or operation of the project.
+4. The unit tests were made with **“Jest"** and to run them, first go to the root of the ’backend” folder and there write the command **"npm test”**. To generate the results of the unit tests and their coverage run the command **"npm run test -- --coverage ‘**, after this inside the backend folder a folder called **’docs ”** will be generated and inside it there will be an xml file with the results. In the same way if you want to see the results in html in your browser, after executing the previous command, you can execute this command according to your OS:
 
  
    A. Windows: start coverage coverage “coverage-report” index.html
