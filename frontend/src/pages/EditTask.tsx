@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import TaskForm from "../forms/TaskForm";
 import { useTaskDetailQuery, useUpdateTaskMutation } from "../api/ApiHooks";
-import { updatedDiff } from "deep-object-diff";
+import { diff } from "deep-object-diff";
 import { toast } from "react-toastify";
 import { isEmpty } from "lodash";
 import dayjs from "dayjs";
@@ -55,7 +55,14 @@ const EditTask = () => {
             if (!taskDetail) {
               return toast.error("No se encontro la nota");
             }
-            const differences = updatedDiff(initialValuesTask, values);
+            const differences = diff(initialValuesTask, {
+              statusId: values?.statusId,
+              priorityId: values?.priorityId,
+              title: values?.title,
+              description: values?.description,
+              dueDate: values?.dueDate,
+            });
+
             if (isEmpty(differences)) {
               return toast.info("No actualizo ningún campo.");
             } else {

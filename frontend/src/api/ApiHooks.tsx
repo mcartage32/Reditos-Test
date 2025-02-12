@@ -48,7 +48,7 @@ export const useTaskListQuery = () => {
   const auth = useContext(AuthContext);
   const token = auth?.accesToken;
   return useQuery<TaskInterface[]>({
-    queryKey: ["TaskList", token],
+    queryKey: ["TaskList"],
     queryFn: async (): Promise<TaskInterface[]> => {
       if (!token) return Promise.reject("No hay token disponible");
       const response = await apiTaks.get<TaskInterface[]>("tasks", {
@@ -139,7 +139,7 @@ export const useStatusListQuery = () => {
   const auth = useContext(AuthContext);
   const token = auth?.accesToken;
   return useQuery<StatusInterface[]>({
-    queryKey: ["StatusList", token],
+    queryKey: ["StatusList"],
     queryFn: async (): Promise<StatusInterface[]> => {
       if (!token) return Promise.reject("No hay token disponible");
       const response = await apiTaks.get<StatusInterface[]>("statuses", {
@@ -156,7 +156,7 @@ export const usePropietyListQuery = () => {
   const auth = useContext(AuthContext);
   const token = auth?.accesToken;
   return useQuery<PropietyInterface[]>({
-    queryKey: ["PropietyList", token],
+    queryKey: ["PropietyList"],
     queryFn: async (): Promise<PropietyInterface[]> => {
       if (!token) return Promise.reject("No hay token disponible");
       const response = await apiTaks.get<PropietyInterface[]>("priorities", {

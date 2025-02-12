@@ -47,8 +47,8 @@ export interface TaskPartial {
   title?: string;
   description?: string;
   dueDate?: Date;
-  status?: number;
-  priority?: number;
+  statusId?: number;
+  priorityId?: number;
 }
 
 export interface StatusInterface {

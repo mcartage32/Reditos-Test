@@ -85,18 +85,31 @@ export class TaskService {
       throw new Error('Task not found');
     }
 
-    const status = await this.statusRepository.findOne({
-      where: { id: updateTaskDto.statusId },
-    });
-    const priority = await this.priorityRepository.findOne({
-      where: { id: updateTaskDto.priorityId },
-    });
-
-    if (!status || !priority) {
-      throw new Error('Invalid status or priority ID');
+    if (updateTaskDto.statusId) {
+      const status = await this.statusRepository.findOne({
+        where: { id: updateTaskDto.statusId },
+      });
+      if (!status) {
+        throw new Error('Invalid status ID');
+      }
+      task.status = status;
     }
 
-    Object.assign(task, updateTaskDto, { status, priority });
+    if (updateTaskDto.priorityId) {
+      const priority = await this.priorityRepository.findOne({
+        where: { id: updateTaskDto.priorityId },
+      });
+      if (!priority) {
+        throw new Error('Invalid priority ID');
+      }
+      task.priority = priority;
+    }
+
+    // Actualiza solo las propiedades que realmente están en updateTaskDto
+    delete updateTaskDto.statusId;
+    delete updateTaskDto.priorityId;
+    Object.assign(task, updateTaskDto);
+
     return this.taskRepository.save(task);
   }
 
