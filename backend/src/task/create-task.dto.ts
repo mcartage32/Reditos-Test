@@ -13,12 +13,15 @@ export class CreateTaskDto {
   @IsDate()
   dueDate: string;
 
+  @IsNotEmpty()
   @IsInt()
   statusId: number;
 
+  @IsNotEmpty()
   @IsInt()
   priorityId: number;
 
+  @IsNotEmpty()
   @IsInt()
   userId: number;
 }
